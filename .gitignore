@@ -1,35 +1,14 @@
 # Operating System files
 .DS_Store            # macOS
-Thumbs.db            # Windows
 
 # Node.js
 node_modules/        # Node.js dependencies
 
-# Python
-__pycache__/         # Python bytecode
-*.pyc                # Python compiled files
-
-# Java
-*.class              # Java compiled files
-*.jar                # Java archive files
-
 # Visual Studio Code
 .vscode/             # VSCode settings folder
-
-# IntelliJ IDEA
-.idea/               # IntelliJ IDEA project files
-
-# Maven
-target/              # Maven build output
 
 # Logs
 *.log                # Log files
 
 # Environment variables
 .env                 # Environment configuration files
-
-# Temporary files
-*.swp                # Swap files (Vim)
-
-# Backup files
-*~                   # Backup files (often created by text editors)
