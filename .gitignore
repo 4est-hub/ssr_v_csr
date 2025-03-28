@@ -12,3 +12,5 @@ node_modules/        # Node.js dependencies
 
 # Environment variables
 .env                 # Environment configuration files
+
+/dist                # Distribution folder
