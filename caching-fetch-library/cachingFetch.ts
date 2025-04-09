@@ -29,8 +29,7 @@ export const useCachingFetch: UseCachingFetch = (url: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const isServer = typeof window === "undefined";
-  if (isServer && cache[url] && cache[url].data) {
+  if (cache[url] && cache[url].data) {
     return {
       data: cache[url].data,
       isLoading: false,
@@ -40,13 +39,6 @@ export const useCachingFetch: UseCachingFetch = (url: string) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (cache[url] && cache[url].data) {
-        setStoredData(cache[url].data);
-        setError(cache[url].error);
-        setIsLoading(false);
-        return;
-      }
-
       const cachedFromSession = sessionStorage.getItem('cache');
       if (cachedFromSession) {
         const parsedCache = JSON.parse(cachedFromSession);
@@ -63,10 +55,8 @@ export const useCachingFetch: UseCachingFetch = (url: string) => {
         const response = await fetch(url);
         const data = await response.json();
         setStoredData(data);
-        cache[url] = { data, error: null };
       } catch (err) {
         setError(err as Error);
-        cache[url] = { data: null, error: err as Error };
       } finally {
         setIsLoading(false); 
       }
@@ -82,6 +72,7 @@ export const useCachingFetch: UseCachingFetch = (url: string) => {
   };
 };
 
+// server side
 export const preloadCachingFetch = async (url: string): Promise<void> => {
   if (!cache[url]) {
     try {
@@ -99,12 +90,7 @@ export const serializeCache = (): string => {
 };
 
 export const initializeCache = (serializedCache: string): void => {
-  const parsedCache = JSON.parse(serializedCache);
-  Object.assign(cache, parsedCache);
-
-  if (typeof window !== 'undefined') {
-    sessionStorage.setItem('cache', serializedCache);
-  }
+  sessionStorage.setItem('cache', serializedCache);
 };
 
 export const wipeCache = (): void => {};
